@@ -9,15 +9,15 @@ public interface PostService {
 
     public List<PostDto> findAll();
 
-    PostDto getById(int id);
+    PostDto getById(long id);
 
 //    ProductDetailDto getReviewsByProductId(int id);
 
     void save(PostDto p);
 
-    void delete(int id);
+    void delete(long id);
 
-    void update(int id, PostDto p);
+    void update(long id, PostDto p);
 
 //    Review getReviewByProductId(int pId, int reviewId);
 

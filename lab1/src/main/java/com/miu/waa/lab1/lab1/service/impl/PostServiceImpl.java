@@ -11,29 +11,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final PostRepo postRepo;
+    @Autowired
+    private PostRepo postRepo;
 
     @Autowired
     ModelMapper modelMapper;
 
-    @Autowired
-    ListMapper listMapper;
-
-
-
 
     @Override
     public List<PostDto> findAll() {
-        return (List<PostDto>) listMapper.mapList(postRepo.findAll(),new PostDto());
+        return postRepo.findAll().stream().map(p->modelMapper.map(p,PostDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    public PostDto getById(int id) {
+    public PostDto getById(long id) {
         return modelMapper.map(postRepo.getById(id), PostDto.class);
     }
 
@@ -43,12 +40,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(int id) {
-        postRepo.delete(id);
+    public void delete(long id) {
+        postRepo.deleteById(id);
     }
 
     @Override
-    public void update(int id, PostDto p) {
-        postRepo.update(id, modelMapper.map(p, Post.class));
+    public void update(long id, PostDto p) {
+//        postRepo.update(id, modelMapper.map(p, Post.class));
+
     }
 }

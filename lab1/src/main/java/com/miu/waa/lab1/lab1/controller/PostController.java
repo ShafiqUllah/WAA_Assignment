@@ -3,6 +3,7 @@ package com.miu.waa.lab1.lab1.controller;
 
 import com.miu.waa.lab1.lab1.entity.Post;
 import com.miu.waa.lab1.lab1.entity.dto.PostDto;
+import com.miu.waa.lab1.lab1.service.PostService;
 import com.miu.waa.lab1.lab1.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,8 @@ import java.util.List;
 //@CrossOrigin(origins = {"http://localhost:3000"})
 public class PostController {
 
-    private final PostServiceImpl postService;
+    @Autowired
+    private PostService postService;
 
     @Autowired
     public PostController(PostServiceImpl postService) {
