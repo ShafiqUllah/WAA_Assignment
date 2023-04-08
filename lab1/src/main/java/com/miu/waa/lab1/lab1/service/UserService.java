@@ -2,19 +2,22 @@ package com.miu.waa.lab1.lab1.service;
 
 import com.miu.waa.lab1.lab1.entity.Post;
 import com.miu.waa.lab1.lab1.entity.User;
+import com.miu.waa.lab1.lab1.entity.dto.PostDto;
 import com.miu.waa.lab1.lab1.entity.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserDto> getAllUsers();
+    List<UserDto> getUsers();
 
-    UserDto getById(Long id);
+    UserDto getUserById(long id);
 
-    void save(User user);
+    void save(UserDto userDto);
 
-    List<Post> getAllPostsByUserId(Long id);
+    void deleteById(long userId);
 
-    List<User> getUsersWithMoreThanOnePost();
+    List<UserDto> getUsersWithMoreThanNum(int num);
+
+    List<PostDto> getAllPostByUserId(long userId);
 }

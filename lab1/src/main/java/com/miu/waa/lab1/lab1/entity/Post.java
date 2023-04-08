@@ -1,22 +1,24 @@
 package com.miu.waa.lab1.lab1.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Post {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String title;
     String content;
     String author;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    List<Comment> comments;
 }

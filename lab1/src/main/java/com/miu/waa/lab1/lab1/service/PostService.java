@@ -1,5 +1,6 @@
 package com.miu.waa.lab1.lab1.service;
 
+import com.miu.waa.lab1.lab1.entity.dto.CommentDto;
 import com.miu.waa.lab1.lab1.entity.dto.PostDto;
 
 import java.util.List;
@@ -7,20 +8,18 @@ import java.util.List;
 public interface PostService {
 
 
-    public List<PostDto> findAll();
+    List<PostDto> getAllPosts();
 
-    PostDto getById(long id);
+    PostDto getPostById(long id);
 
-//    ProductDetailDto getReviewsByProductId(int id);
+    void save(PostDto postDto);
 
-    void save(PostDto p);
+    void deleteById(long id);
 
-    void delete(long id);
+    void addComment(long postId, CommentDto commentDto);
 
-    void update(long id, PostDto p);
+    List<CommentDto> getComments(long id);
 
-//    Review getReviewByProductId(int pId, int reviewId);
-
-//    List<PostDto>findAllPriceGreaterThan(int price);
+    List<PostDto> findByTitleMatch(String title);
 
 }

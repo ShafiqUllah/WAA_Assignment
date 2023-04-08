@@ -2,6 +2,7 @@ package com.miu.waa.lab1.lab1.service.impl;
 
 import com.miu.waa.lab1.lab1.entity.Post;
 import com.miu.waa.lab1.lab1.entity.User;
+import com.miu.waa.lab1.lab1.entity.dto.PostDto;
 import com.miu.waa.lab1.lab1.entity.dto.UserDto;
 import com.miu.waa.lab1.lab1.repo.UserRepo;
 import com.miu.waa.lab1.lab1.service.UserService;
@@ -19,30 +20,41 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
-    public List<UserDto> getAllUsers() {
-        return userRepo.findAll().stream()
+    public List<UserDto> getUsers() {
+        List<User> users = userRepo.findAll();
+        return users.stream()
                 .map(u -> modelMapper.map(u, UserDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDto getById(Long id) {
-        return modelMapper.map(userRepo.findById(id), UserDto.class);
+    public UserDto getUserById(long id) {
+        return modelMapper.map(userRepo.findById(id),UserDto.class);
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
         userRepo.save(user);
     }
 
+
     @Override
-    public List<Post> getAllPostsByUserId(Long id) {
-        return userRepo.getAllPostsByUserId(id);
+    public void deleteById(long userId) {
+        userRepo.deleteById(userId);
     }
 
     @Override
-    public List<User> getUsersWithMoreThanOnePost() {
-        return userRepo.getUsersWithMoreThanOnePost();
+    public List<UserDto> getUsersWithMoreThanNum(int num) {
+        List<User> users = userRepo.getUsersWithMoreThanNum(num);
+        return users.stream().map(u -> modelMapper.map(u, UserDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> getAllPostByUserId(long userId) {
+        List<Post> posts = userRepo.getAllPostByUserId(userId);
+        return posts.stream().map(p -> modelMapper.map(p, PostDto.class)).collect(Collectors.toList());
     }
 }

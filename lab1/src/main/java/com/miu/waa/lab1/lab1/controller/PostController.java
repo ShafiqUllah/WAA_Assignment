@@ -2,6 +2,7 @@ package com.miu.waa.lab1.lab1.controller;
 
 
 import com.miu.waa.lab1.lab1.entity.Post;
+import com.miu.waa.lab1.lab1.entity.dto.CommentDto;
 import com.miu.waa.lab1.lab1.entity.dto.PostDto;
 import com.miu.waa.lab1.lab1.service.PostService;
 import com.miu.waa.lab1.lab1.service.impl.PostServiceImpl;
@@ -12,52 +13,47 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/posts/")
 @RestController
-//@CrossOrigin(origins = {"http://localhost:3000"})
+@RequestMapping("/posts/")
 public class PostController {
-
     @Autowired
     private PostService postService;
-
-    @Autowired
-    public PostController(PostServiceImpl postService) {
-        this.postService = postService;
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<PostDto> getAllPosts(){
-        return postService.findAll();
+        return postService.getAllPosts();
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{id}")
+    public PostDto getPostById(@PathVariable("id") long id){
+        return postService.getPostById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void savePost(@RequestBody PostDto p){
-        System.out.println("Shafiq "+p);
-        postService.save(p);
+    public void save(@RequestBody PostDto postDto){
+        postService.save(postDto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getById(@PathVariable int id){
-        var product = postService.getById(id);
-        return ResponseEntity.ok(product);
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable("id") long id){
+        postService.deleteById(id);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id){
-        postService.delete(id);
+    @GetMapping("{postId}/comments")
+    public List<CommentDto> getComments(@PathVariable("postId") long id){
+        return postService.getComments(id);
     }
 
-    @PutMapping("/{id}")
-    public void update(@PathVariable("id") int postId, @RequestBody PostDto p){
-        postService.update(postId, p);
+    @PostMapping("{postId}/comments")
+    public void addComment(@PathVariable("postId") long postId, @RequestBody CommentDto commentDto){
+        postService.addComment(postId, commentDto);
     }
 
-    @GetMapping("/test")
-    public String test(){
-        System.out.println("Shafiq ");
-        return "Hello Waa";
+    @GetMapping("title/{title}")
+    public List<PostDto> getAllPostsWithTitleMatch(@PathVariable("title") String title){
+        return postService.findByTitleMatch(title);
     }
+
 }

@@ -2,6 +2,7 @@ package com.miu.waa.lab1.lab1.controller;
 
 import com.miu.waa.lab1.lab1.entity.Post;
 import com.miu.waa.lab1.lab1.entity.User;
+import com.miu.waa.lab1.lab1.entity.dto.PostDto;
 import com.miu.waa.lab1.lab1.entity.dto.UserDto;
 import com.miu.waa.lab1.lab1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,33 +14,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
+
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getAllUsers(){
-        return userService.getAllUsers();
+    public List<UserDto> getUsers(){
+        return userService.getUsers();
     }
     @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto getById(@PathVariable("id") Long id){
-        return userService.getById(id);
-
+    public UserDto getUserById(@PathVariable("id") long id){
+        return userService.getUserById(id);
     }
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody User user){
-        userService.save(user);
+    public void save(@RequestBody UserDto userDto){
+        userService.save(userDto);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable("id") long userId){
+        userService.deleteById(userId);
+    }
+
     @GetMapping("{id}/posts")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Post> getAllPostsByUserId(Long id){
-        return  userService.getAllPostsByUserId(id);
+    public List<PostDto> getAllPostByUserId(@PathVariable("id") long userId){
+        return userService.getAllPostByUserId(userId);
     }
-    @GetMapping("moreThan1Post")
-    public List<User> getUsersWithMoreThanOnePost(){
-        return userService.getUsersWithMoreThanOnePost();
+
+    @GetMapping("postsMoreThan/{num}")
+    public List<UserDto> getUsersWithMoreThanNum(@PathVariable("num") int num){
+        return userService.getUsersWithMoreThanNum(num);
     }
 }
