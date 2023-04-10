@@ -1,5 +1,6 @@
 package com.miu.waa.lab1.lab1.controller;
 
+import com.miu.waa.lab1.lab1.aspect.annotation.ExecutionTime;
 import com.miu.waa.lab1.lab1.entity.Post;
 import com.miu.waa.lab1.lab1.entity.User;
 import com.miu.waa.lab1.lab1.entity.dto.PostDto;
@@ -22,6 +23,7 @@ public class UserController {
     public List<UserDto> getUsers(){
         return userService.getUsers();
     }
+    @ExecutionTime
     @GetMapping("{id}")
     public UserDto getUserById(@PathVariable("id") long id){
         return userService.getUserById(id);
